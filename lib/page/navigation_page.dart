@@ -27,8 +27,10 @@ class _NavigationPageState extends State<NavigationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: _widgets[_selectedIndex],
+      body: SafeArea(
+        child: Center(
+          child: _widgets[_selectedIndex],
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const [

@@ -17,7 +17,7 @@ jobs:
         with:
           flutter-version: '3.7.12'
       - run: flutter pub get
-      - run: echo $DEBUG_KEYSTORE_FILE | base64 -d > debug.keystore
+      - run: echo $DEBUG_KEYSTORE_FILE | base64 -d > android/debug.keystore
         env:
           DEBUG_KEYSTORE_FILE: ${{ secrets.DEBUG_KEYSTORE_FILE }}
       - run: flutter build apk --debug

@@ -1,11 +1,9 @@
-name: build-android-app
+name: deploy-test-android-app
 on:
   workflow_dispatch:
   push:
     branches:
       - 'develop'
-  pull_request:
-    types: [ opened, synchronize, reopened ]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,5 +17,11 @@ jobs:
         with:
           flutter-version: '3.7.12'
       - run: flutter pub get
-      - run: flutter test
       - run: flutter build apk
+      - name: Upload APK to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID }}
+          serviceCredentialsFileContent: ${{ secrets.FIREBASE_CREDENTIAL_FILE_CONTENT }}
+          groups: 'android'
+          file: 'build/app/outputs/flutter-apk/app-release.apk'

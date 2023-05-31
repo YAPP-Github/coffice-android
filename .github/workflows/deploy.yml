@@ -17,11 +17,14 @@ jobs:
         with:
           flutter-version: '3.7.12'
       - run: flutter pub get
-      - run: flutter build apk
+      - run: echo $DEBUG_KEYSTORE_FILE | base64 -d > android/debug.keystore
+        env:
+          DEBUG_KEYSTORE_FILE: ${{ secrets.DEBUG_KEYSTORE_FILE }}
+      - run: flutter build apk --debug
       - name: Upload APK to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
           appId: ${{ secrets.FIREBASE_APP_ID }}
           serviceCredentialsFileContent: ${{ secrets.FIREBASE_CREDENTIAL_FILE_CONTENT }}
           groups: 'android'
-          file: 'build/app/outputs/flutter-apk/app-release.apk'
+          file: 'build/app/outputs/flutter-apk/app-debug.apk'
